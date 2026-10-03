@@ -5,7 +5,7 @@ const counter=document.getElementById('counter'),topBtn=document.getElementById(
 const prevBtn=document.getElementById('prev'),nextBtn=document.getElementById('next');
 let slides=[],index=0,currentPage=0,landscape=false,startX=0,startY=0,dx=0,dy=0,dragging=false,axis=null;
 
-const isLandscape=()=>window.innerWidth>window.innerHeight && window.innerWidth>760;
+const isLandscape=()=>window.innerWidth>window.innerHeight;
 const blank=()=>{const d=document.createElement('div');d.className='manga-page blank-page';d.setAttribute('aria-hidden','true');return d};
 function addSpread(rightPage,leftPage,start,end){
  const s=document.createElement('div');s.className='reader-slide spread';s.dataset.start=start;s.dataset.end=end;
