@@ -33,13 +33,16 @@ function prepare(){
  const s=slides[index],a=+s.dataset.start,b=+s.dataset.end;currentPage=a;
  counter.textContent=(landscape&&b>a?`${a+1}-${b+1}`:`${a+1}`)+` / ${originals.length}`;
 }
-function fit(){if(landscape)return;const s=slides[index],img=s?.querySelector('img');if(!img)return;const apply=()=>viewer.style.height=s.offsetHeight+'px';img.complete?requestAnimationFrame(apply):img.addEventListener('load',()=>requestAnimationFrame(apply),{once:true})}
-function go(delta){const n=Math.max(0,Math.min(slides.length-1,index+delta));if(n===index)return;index=n;prepare();fit()}
-prevBtn.onclick=()=>go(1);nextBtn.onclick=()=>go(-1);topBtn.onclick=()=>{index=0;prepare();fit()};
-viewer.addEventListener('touchstart',e=>{if(e.touches.length!==1){dragging=false;return}startX=e.touches[0].clientX;startY=e.touches[0].clientY;dx=dy=0;axis=null;dragging=true},{passive:true});
-viewer.addEventListener('touchmove',e=>{if(!dragging||e.touches.length!==1)return;dx=e.touches[0].clientX-startX;dy=e.touches[0].clientY-startY;if(!axis&&Math.max(Math.abs(dx),Math.abs(dy))>8)axis=Math.abs(dx)>Math.abs(dy)?'x':'y'},{passive:true});
-viewer.addEventListener('touchend',()=>{if(dragging&&axis==='x'&&Math.abs(dx)>45){dx<0?go(1):go(-1)}dragging=false},{passive:true});
-window.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')go(1);if(e.key==='ArrowRight')go(-1)});
-let timer;window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(build,160)});
-build();
+function fit(){
+  if(landscape)return;
+  const s=slides[index]; if(!s)return;
+  const img=s.querySelector('img'); if(!img)return;
+  const apply=()=>{
+    const w=viewer.clientWidth || window.innerWidth;
+    if(img.naturalWidth && img.naturalHeight){
+      viewer.style.height=Math.round(w*img.naturalHeight/img.naturalWidth)+'px';
+    }
+  };
+  if(img.complete) requestAnimationFrame(apply);
+  else img.addEventListener('load',()=>requestAnimationFrame(apply),{once:true});
 })();
