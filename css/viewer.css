@@ -1,0 +1,18 @@
+*{box-sizing:border-box}html,body{margin:0;background:#111;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic",Meiryo,sans-serif}
+.reader-bar{height:42px;padding:4px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f7f3e8;color:#292722}
+.reader-bar a{color:inherit;text-decoration:none;font-size:12px}.reader-name{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reader-bar button{min-height:30px;border:1px solid #bdb5a5;background:#fffdf8;border-radius:6px;padding:4px 10px}
+.viewer{position:relative;overflow:hidden;width:100%;max-width:100%;margin:0 auto;background:#111;touch-action:pan-y pinch-zoom}
+.reader-slide{position:absolute;inset:0 auto auto 0;width:100%;display:none;align-items:flex-start;justify-content:center;background:#111;will-change:transform}
+.reader-slide.is-active,.reader-slide.is-next,.reader-slide.is-prev{display:flex}
+.reader-slide.single{justify-content:center}.reader-slide.single .manga-page{flex:0 0 100%;width:100%;display:flex!important;justify-content:center}
+.reader-slide.single .manga-page img{width:100%!important;height:auto!important;display:block}
+.reader-slide.spread{flex-direction:row-reverse;justify-content:center;align-items:flex-start;gap:0}
+.reader-slide.spread .manga-page{flex:0 1 auto;width:auto;display:flex!important;margin:0;padding:0;justify-content:center;align-items:flex-start}
+.reader-slide.spread .manga-page img{display:block;height:auto;width:auto;max-width:none;margin:0;padding:0}
+.reader-slide.spread .blank-page{flex:0 0 auto;width:auto;height:100%;max-width:50vw;aspect-ratio:1/1;background:#fff}
+.page-nav{position:fixed;left:0;right:0;bottom:34px;display:flex;justify-content:space-between;pointer-events:none;padding:0 10px;z-index:10}
+.page-nav button{pointer-events:auto;background:rgba(20,20,20,.68);color:#fff;border:1px solid #666;border-radius:7px;padding:8px 10px}
+.counter{position:fixed;left:50%;bottom:7px;transform:translateX(-50%);font-size:12px;background:rgba(0,0,0,.62);padding:4px 9px;border-radius:12px;z-index:10}
+@media(orientation:landscape){.viewer{height:calc(100dvh - 42px);min-height:320px}.reader-slide{height:100%}.reader-slide.spread .manga-page{height:100%;max-width:50vw}.reader-slide.spread .manga-page img{height:100%;width:auto;max-width:50vw;object-fit:contain}}
+@media(max-width:600px){.reader-bar{height:38px;padding:3px 8px}.reader-bar a,.reader-name{font-size:11px}.viewer{min-height:200px}}
