@@ -57,3 +57,24 @@ html,body{margin:0;padding:0;background:#111;color:#fff;font-family:-apple-syste
 .end-actions a,.end-actions button{border:2px solid #2b2823;background:#fff;box-shadow:3px 3px 0 #2b2823;transition:transform .15s ease,box-shadow .15s ease}
 .end-actions a:hover,.end-actions button:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 #2b2823}
 .end-actions .primary{background:#f4d86e;color:#2b2823}
+
+/* --- 読書バー：スケッチブック風 --- */
+.reader-bar{background:#f6f0e1 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .33 0 0 0 0 .22 0 0 0 .42 -.14'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");box-shadow:0 1px 0 #d9cfb8,0 3px 8px rgba(40,30,10,.1);z-index:5}
+.reader-bar *{font-family:"Yomogi","Klee One","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif}
+.reader-title #context-back{font-size:13px!important}
+.reader-controls #counter{font-size:13px;color:#2b2823}
+#top{border:2px solid #2b2823;background:#fff;color:#2b2823;border-radius:255px 14px 225px 14px/14px 225px 14px 255px;box-shadow:2px 2px 0 #2b2823;font-size:13px!important;min-height:28px!important;padding:3px 10px!important;cursor:pointer}
+#top:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #2b2823}
+.progress{height:4px;background:rgba(43,40,35,.13)}
+#progress-fill{background:#2b2823;border-radius:2px 0 0 2px}
+@media(max-width:600px){.reader-title #context-back,#top{font-size:12px!important}}
+@media(min-width:700px){.reader-bar .reader-title strong{display:inline!important;margin-left:18px;padding:0 .3em;font-weight:400;font-size:15px;background:linear-gradient(transparent 58%,rgba(244,216,110,.75) 58%,rgba(244,216,110,.75) 92%,transparent 92%)}}
+
+/* --- 続きから読む／操作ヒント --- */
+.viewer.zone{cursor:pointer}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:50;max-width:calc(100% - 28px);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 10px;padding:10px 16px;background:#fffdf6;color:#2b2823;border:2px solid #2b2823;border-radius:16px;box-shadow:3px 3px 0 #2b2823;font-family:"Yomogi","Klee One","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;font-size:14px;line-height:1.5;opacity:0;transform:translate(-50%,14px);transition:opacity .25s ease,transform .25s ease}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.hint{pointer-events:none}
+.toast button{min-height:32px;padding:3px 14px;border:2px solid #2b2823;border-radius:999px;background:#fff;color:#2b2823;font:inherit;font-size:13px;cursor:pointer}
+.toast button.primary{background:#f4d86e;font-weight:700}
+@media(prefers-reduced-motion:reduce){.toast{transition:none}}
