@@ -4,6 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes">
 <title>なんだろう なんだろう | SAKU作品集</title>
+<meta name="description" content="SAKU・9歳の作品。2021年12月23日発行の短編マンガ（全18ページ）。">
+<link rel="canonical" href="https://saku3298.github.io/saku-works/works/nandarou-nandarou/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="SAKU作品集">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="なんだろう なんだろう | SAKU作品集">
+<meta property="og:description" content="SAKU・9歳の作品。2021年12月23日発行の短編マンガ（全18ページ）。">
+<meta property="og:url" content="https://saku3298.github.io/saku-works/works/nandarou-nandarou/">
+<meta property="og:image" content="https://saku3298.github.io/saku-works/assets/ogp/nandarou-nandarou.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="なんだろう なんだろう の表紙">
+<meta name="twitter:card" content="summary_large_image">
 <style id="ogre-reader-base">
 
 *{box-sizing:border-box}
@@ -37,14 +50,34 @@ html,body{margin:0;padding:0;background:#111;color:#fff;font-family:-apple-syste
 }
 @media(min-width:1001px) and (orientation:landscape){.viewer{height:calc(100dvh - 42px)!important}}
 
+
+/* --- progress / counter / end screen --- */
+.reader-bar{position:relative!important}
+.reader-controls #counter{display:inline-flex!important;justify-content:flex-end;min-width:4.6em;font-size:12px;color:#665c49;font-variant-numeric:tabular-nums}
+.progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:#e4dcc9}
+#progress-fill{position:absolute;top:0;right:0;height:100%;width:0;background:#292722;transition:width .25s ease}
+@media(prefers-reduced-motion:reduce){#progress-fill{transition:none}}
+.reader-slide.end{justify-content:center}
+.end-card{width:100%;aspect-ratio:943/1338;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px 20px;text-align:center;background:#f7f3e8;color:#292722}
+.end-mark{margin:0;font-size:12px;letter-spacing:.35em;color:#665c49}
+.end-card h2{margin:0;font-size:clamp(24px,6.5vw,32px);letter-spacing:.12em}
+.end-card p{margin:0;font-size:14px;line-height:1.8;color:#5c574d}
+.end-actions{display:flex;flex-direction:column;gap:10px;width:min(300px,100%);margin-top:8px}
+.end-actions a,.end-actions button{display:flex;align-items:center;justify-content:center;min-height:44px;padding:8px 16px;border:1px solid #bdb5a5;border-radius:999px;background:#fffdf8;color:#292722;font:inherit;font-size:14px;text-decoration:none;cursor:pointer}
+.end-actions .primary{background:#292722;border-color:#292722;color:#fff;font-weight:700}
+.end-long{margin-top:6px;font-size:12px;color:#665c49}
+.end-long a{color:inherit;margin:0 6px}
+@media(orientation:landscape){.reader-slide.end{height:100%!important}.end-card{aspect-ratio:auto;height:100%}}
+@media(orientation:landscape) and (max-height:520px){.end-card{gap:8px;padding:8px 16px}.end-card h2{font-size:22px}.end-card p{font-size:13px;line-height:1.5}.end-actions{flex-direction:row;flex-wrap:wrap;justify-content:center;width:auto;gap:8px;margin-top:2px}.end-actions a,.end-actions button{min-height:36px;padding:4px 18px}.end-long{margin-top:0}}
 </style>
 </head>
 <body>
 <header class="reader-bar">
  <div class="reader-bar-inner">
   <div class="reader-title"><a id="context-back" href="../../">← SAKU作品集へ戻る</a><strong>なんだろう なんだろう</strong></div>
-  <div class="reader-controls"><button id="top" type="button">先頭へ</button></div>
+  <div class="reader-controls"><span id="counter" aria-live="polite"></span><button id="top" type="button">先頭へ</button></div>
  </div>
+ <div class="progress" aria-hidden="true"><div id="progress-fill"></div></div>
 </header>
 <main class="viewer">
 <div class="manga-page"><img src="images/page-001.jpg" alt="なんだろう なんだろう ページ 1"></div>
@@ -66,6 +99,19 @@ html,body{margin:0;padding:0;background:#111;color:#fff;font-family:-apple-syste
 <div class="manga-page"><img loading="lazy" src="images/page-017.jpg" alt="なんだろう なんだろう ページ 17"></div>
 <div class="manga-page"><img loading="lazy" src="images/page-018.jpg" alt="なんだろう なんだろう ページ 18"></div>
 </main>
+<template id="end-template">
+<div class="end-card">
+ <p class="end-mark">おわり</p>
+ <h2>なんだろう なんだろう</h2>
+ <p>最後まで読んでいただき、<br>ありがとうございました。</p>
+ <div class="end-actions">
+  <a class="primary" href="../tsuyoku-naritai-bonjin-tachi/">次の作品：強くなりたい凡人達</a>
+  <button id="restart" type="button">もう一度読む</button>
+  <a href="../../">SAKU作品集へ戻る</a>
+ </div>
+ <p class="end-long">長期作品：<a href="https://saku3298.github.io/ogre-kingdom/">オーガキングダム</a><a href="https://saku3298.github.io/rikarikai/">リカリカイ</a></p>
+</div>
+</template>
 <script id="jumpplus-landscape-script">
 
 (function(){
@@ -77,6 +123,9 @@ html,body{margin:0;padding:0;background:#111;color:#fff;font-family:-apple-syste
  const topBtn=document.getElementById('top');
  const prevBtn=document.getElementById('prev');
  const nextBtn=document.getElementById('next');
+ const endSlide=document.createElement('div');
+ endSlide.className='reader-slide end';endSlide.dataset.start=String(originals.length);endSlide.dataset.end=String(originals.length);
+ endSlide.appendChild(document.getElementById('end-template').content.cloneNode(true));
  let slides=[],index=0,currentPage=0,landscape=false;
  let startX=0,startY=0,dx=0,dragging=false,axis=null,animating=false;
 
@@ -91,19 +140,23 @@ html,body{margin:0;padding:0;background:#111;color:#fff;font-family:-apple-syste
    let i=1;
    for(;i+1<originals.length;i+=2) addSpread(originals[i],originals[i+1],i,i+1);
    if(i<originals.length) addSpread(originals[i],makeBlank(),i,i);
+   viewer.appendChild(endSlide);slides.push(endSlide);
    index=slides.findIndex(slide=>{const start=Number(slide.dataset.start),end=Number(slide.dataset.end);return currentPage>=start&&currentPage<=end;});
    if(index<0) index=0;
   }else{
    originals.forEach((page,i)=>{const slide=document.createElement('div');slide.className='reader-slide single';slide.dataset.start=String(i);slide.appendChild(page);viewer.appendChild(slide);slides.push(slide);});
+   viewer.appendChild(endSlide);slides.push(endSlide);
    index=Math.min(currentPage,slides.length-1);
   }
   prepare();
  }
  function updateCounter(){
-  if(!counter)return;
   const start=Number(slides[index]?.dataset.start||0);currentPage=start;
   const end=Number(slides[index]?.dataset.end||start);
-  counter.textContent=(landscape&&end>start)?(start+1)+'-'+(end+1)+' / '+originals.length:(start+1)+' / '+originals.length;
+  const total=originals.length,isEnd=start>=total;
+  if(counter)counter.textContent=isEnd?'おわり':((landscape&&end>start)?(start+1)+'-'+(end+1):(start+1))+' / '+total;
+  const fill=document.getElementById('progress-fill');
+  if(fill)fill.style.width=(isEnd?100:(end+1)/total*100)+'%';
  }
  function fitPortraitHeight(){
   if(landscape)return;
@@ -112,6 +165,7 @@ html,body{margin:0;padding:0;background:#111;color:#fff;font-family:-apple-syste
   const apply=()=>{viewer.style.height=s.offsetHeight+'px';};
   if(img&&img.complete)requestAnimationFrame(apply);
   else if(img)img.addEventListener('load',()=>requestAnimationFrame(apply),{once:true});
+  else requestAnimationFrame(apply);
  }
  function prepare(){
   slides.forEach((s,i)=>{s.classList.remove('is-active','is-next','is-prev');s.style.transition='none';s.style.transform='translateX(0)';
@@ -175,6 +229,8 @@ html,body{margin:0;padding:0;background:#111;color:#fff;font-family:-apple-syste
  if(prevBtn)prevBtn.onclick=()=>animateTo(index+1,'next');
  if(nextBtn)nextBtn.onclick=()=>animateTo(index-1,'prev');
  if(topBtn)topBtn.onclick=()=>{currentPage=0;index=0;prepare();window.scrollTo({top:0,behavior:'smooth'});};
+ const restartBtn=endSlide.querySelector('#restart');
+ if(restartBtn)restartBtn.onclick=()=>{if(topBtn)topBtn.click();};
  document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')animateTo(index+1,'next');if(e.key==='ArrowRight')animateTo(index-1,'prev');});
  let timer;
  function onRotate(){clearTimeout(timer);timer=setTimeout(()=>{const newLandscape=isLandscape();if(newLandscape!==landscape)build();else prepare();},220);}
