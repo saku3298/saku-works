@@ -53,11 +53,30 @@ def og(title, desc, url, img, typ, alt):
 
 
 # --- ページ数を数える -------------------------------------------------
+def pick_ext(pattern_base):
+    """webp があれば webp、なければ jpg を使う"""
+    for ext in ("webp", "jpg"):
+        n = len(glob.glob(f"{pattern_base}.{ext}"))
+        if n:
+            return ext, n
+    return None, 0
+
+
+def thumb(slug):
+    for ext in ("webp", "jpg"):
+        if os.path.exists(f"assets/thumbnails/{slug}.{ext}"):
+            return f"assets/thumbnails/{slug}.{ext}"
+    sys.exit(f"エラー: assets/thumbnails/{slug}.webp（または .jpg）がありません")
+
+
 for w in works:
-    n = len(glob.glob(f"works/{w['slug']}/images/page-*.jpg"))
+    ext, n = pick_ext(f"works/{w['slug']}/images/page-*")
     if n == 0:
-        sys.exit(f"エラー: works/{w['slug']}/images/ に page-001.jpg などがありません")
-    w["pages"] = n
+        sys.exit(f"エラー: works/{w['slug']}/images/ に page-001.webp（または .jpg）などがありません")
+    w["ext"], w["pages"] = ext, n
+    alts = w.get("alts", [])
+    if alts and len(alts) != n:
+        print(f"注意: {w['slug']} の alts は {len(alts)} 件ですが、画像は {n} 枚です（足りない分は自動の文になります）")
     w["description"] = w["description"].replace("{pages}", str(n))
 
 V_VIEWER_CSS = ver("css/viewer.css")
@@ -70,9 +89,15 @@ def work_page(i, w):
     nxt = works[(i + 1) % len(works)]
     title = w["title"]
     url = f"{BASE}works/{w['slug']}/"
+    def alt_of(n):
+        alts = w.get("alts", [])
+        if n <= len(alts) and alts[n - 1].strip():
+            return f"ページ{n}：{alts[n - 1]}"
+        return f"{title} ページ {n}"
+
     pages = "\n".join(
-        '<div class="manga-page"><img{lazy} src="images/page-{n:03d}.jpg" alt="{t} ページ {n}"></div>'.format(
-            lazy="" if n <= 2 else ' loading="lazy"', n=n, t=e(title))
+        '<div class="manga-page"><img{lazy} src="images/page-{n:03d}.{ext}" alt="{alt}"></div>'.format(
+            lazy="" if n <= 2 else ' loading="lazy" decoding="async"', n=n, ext=w["ext"], alt=e(alt_of(n)))
         for n in range(1, w["pages"] + 1))
     next_link = ""
     if len(works) > 1:
@@ -128,7 +153,7 @@ def top_page():
         blurb = f'<p class="blurb">{e(w["blurb"])}</p>' if w.get("blurb") else ""
         cards.append(f'''<a class="work-card" href="works/{w["slug"]}/" aria-label="{e(w["title"])} を読む">
 <span class="tape" aria-hidden="true"></span>
-<div class="cover"><img src="assets/thumbnails/{w["slug"]}.jpg" alt="{e(w["title"])} のサムネイル"></div>
+<div class="cover"><img src="{thumb(w["slug"])}" alt="{e(w["title"])} の表紙"></div>
 <div class="work-info"><h3>{e(w["title"])}</h3><p class="chips"><span>全{w["pages"]}ページ</span></p>{metas}{blurb}<span class="read-button">読む →</span></div>
 </a>''')
     long_html = ""
@@ -171,6 +196,34 @@ def top_page():
 '''
 
 
+def not_found_page():
+    notes = "".join(
+        f'<a class="note" href="{BASE}works/{w["slug"]}/"><strong>{e(w["title"])}</strong><em>読む →</em></a>'
+        for w in works)
+    return f'''<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ページが見つかりません | {e(site["name"])}</title>
+{head_common(BASE)}
+<link rel="stylesheet" href="{BASE}css/style.css?v={V_STYLE_CSS}">
+</head>
+<body>
+<main class="wrap not-found">
+<p class="nf-code" aria-hidden="true">404</p>
+<h1><span>ページが見つかりません</span></h1>
+<p>URLがまちがっているか、ページが移動したのかもしれません。</p>
+<a class="nf-back" href="{BASE}">{e(site["name"])}へもどる →</a>
+<div class="nf-works"><p>こちらの作品はどうですか？</p><div class="long-links">{notes}</div></div>
+</main>
+<footer><div class="wrap">{e(site["copyright"])}</div></footer>
+</body>
+</html>
+'''
+
+
 def write(path, text):
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     open(path, "w", encoding="utf-8", newline="\n").write(text)
@@ -178,6 +231,7 @@ def write(path, text):
 
 
 write("index.html", top_page())
+write("404.html", not_found_page())
 for i, w in enumerate(works):
     write(f"works/{w['slug']}/index.html", work_page(i, w))
 print("完了")

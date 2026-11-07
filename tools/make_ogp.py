@@ -32,6 +32,14 @@ if not os.path.exists(REGULAR):
     REGULAR = FONT
 
 
+def thumb(slug):
+    for ext in ("webp", "jpg"):
+        p = f"assets/thumbnails/{slug}.{ext}"
+        if os.path.exists(p):
+            return p
+    sys.exit(f"assets/thumbnails/{slug}.webp（または .jpg）がありません")
+
+
 def font(size, bold=True):
     return ImageFont.truetype(FONT if bold else REGULAR, size, index=0)
 
@@ -69,7 +77,7 @@ def work_image(w, site_name, out):
     c = Image.new("RGB", (W, H), PAPER)
     d = ImageDraw.Draw(c)
     d.rectangle((0, 0, W, 10), fill=INK)
-    cover(c, f"assets/thumbnails/{w['slug']}.jpg", 520, 90, 55)
+    cover(c, thumb(w['slug']), 520, 90, 55)
     x, maxw = 540, W - 540 - 70
     d.text((x, 90), site_name, font=font(30, False), fill=SUB)
     size = 64
@@ -98,7 +106,7 @@ def default_image(works, site_name, out):
     d.rectangle((0, 0, W, 10), fill=INK)
     x = 640
     for w in works[:2]:
-        x += cover(c, f"assets/thumbnails/{w['slug']}.jpg", 430, x, 100) + 40
+        x += cover(c, thumb(w['slug']), 430, x, 100) + 40
     d.text((80, 200), site_name, font=font(76), fill=INK)
     d.line((84, 310, 174, 310), fill=INK, width=4)
     d.text((84, 336), "SAKUが描いてきた", font=font(32, False), fill=SUB)
@@ -110,7 +118,7 @@ data = json.load(open("works.json", encoding="utf-8"))
 os.makedirs("assets/ogp", exist_ok=True)
 import glob
 for w in data["works"]:
-    w["pages"] = len(glob.glob(f"works/{w['slug']}/images/page-*.jpg"))
+    w["pages"] = len(glob.glob(f"works/{w['slug']}/images/page-*.webp")) or len(glob.glob(f"works/{w['slug']}/images/page-*.jpg"))
     work_image(w, data["site"]["name"], f"assets/ogp/{w['slug']}.jpg")
     print("生成:", f"assets/ogp/{w['slug']}.jpg")
 default_image(data["works"], data["site"]["name"], "assets/ogp/default.jpg")
