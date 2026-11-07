@@ -48,3 +48,12 @@ html,body{margin:0;padding:0;background:#111;color:#fff;font-family:-apple-syste
 .end-long a{color:inherit;margin:0 6px}
 @media(orientation:landscape){.reader-slide.end{height:100%!important}.end-card{aspect-ratio:auto;height:100%}}
 @media(orientation:landscape) and (max-height:520px){.end-card{gap:8px;padding:8px 16px}.end-card h2{font-size:22px}.end-card p{font-size:13px;line-height:1.5}.end-actions{flex-direction:row;flex-wrap:wrap;justify-content:center;width:auto;gap:8px;margin-top:2px}.end-actions a,.end-actions button{min-height:36px;padding:4px 18px}.end-long{margin-top:0}}
+
+/* --- 読了画面：トップと同じ紙の雰囲気 --- */
+.end-card{background-color:#f6f0e1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .33 0 0 0 0 .22 0 0 0 .42 -.14'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.end-card h2,.end-mark,.end-long,.end-actions a,.end-actions button{font-family:"Yomogi","Klee One","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;font-weight:400}
+.end-card p{font-family:"Klee One","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif}
+.end-card h2 span{padding:0 .3em;background:linear-gradient(transparent 58%,rgba(244,216,110,.75) 58%,rgba(244,216,110,.75) 92%,transparent 92%)}
+.end-actions a,.end-actions button{border:2px solid #2b2823;background:#fff;box-shadow:3px 3px 0 #2b2823;transition:transform .15s ease,box-shadow .15s ease}
+.end-actions a:hover,.end-actions button:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 #2b2823}
+.end-actions .primary{background:#f4d86e;color:#2b2823}

@@ -37,6 +37,28 @@ SAKUの短編・読切・過去作品を公開するGitHub Pagesサイトです�
    ```
 4. 変更したファイルをGitHubにアップロードする
 
+## 任意で足せる項目（`works.json`）
+
+書いた項目だけ表示されます。空のままなら何も出ません。
+
+```json
+"works": [{ "...": "...", "blurb": "カードに出るあらすじ（1〜2行）" }],
+"long_works": [{ "title": "...", "url": "...", "description": "付せんに出るひとこと説明" }],
+"site": {
+  "profile": {
+    "title": "SAKUについて",
+    "text": "自己紹介の文章。\n改行すると段落が分かれます。",
+    "links": [{ "label": "X", "url": "https://..." }]
+  }
+}
+```
+
+## デザインについて
+
+- トップはスケッチブック風です。色や質感は `css/style.css` 先頭の `:root`（`--paper`、`--ink`、`--hl` など）で変えられます。
+- 見出しは Google Fonts の「Yomogi」、本文は「Klee One」です。読み込めない環境では、システムの日本語フォントで表示されます。
+- ファビコンは `assets/favicon.svg` です。
+
 ## 公開URLを変えたとき
 
 `works.json` の `site.url` を新しいURLにして、`python3 tools/build.py` をやり直してください。

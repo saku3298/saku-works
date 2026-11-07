@@ -26,6 +26,16 @@ def ver(path):
     return hashlib.md5(open(path, "rb").read()).hexdigest()[:8]
 
 
+FONTS = """<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&display=swap">"""
+
+
+def head_common(prefix):
+    return f"""{FONTS}
+<link rel="icon" href="{prefix}assets/favicon.svg" type="image/svg+xml">"""
+
+
 def og(title, desc, url, img, typ, alt):
     return f'''<meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{url}">
@@ -76,6 +86,7 @@ def work_page(i, w):
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes">
 <title>{e(title)} | {e(site["name"])}</title>
 {og(f"{title} | {site['name']}", w["description"], url, f"{BASE}assets/ogp/{w['slug']}.jpg", "article", f"{title} の表紙")}
+{head_common("../../")}
 <link rel="stylesheet" href="../../css/viewer.css?v={V_VIEWER_CSS}">
 </head>
 <body>
@@ -92,7 +103,7 @@ def work_page(i, w):
 <template id="end-template">
 <div class="end-card">
  <p class="end-mark">おわり</p>
- <h2>{e(title)}</h2>
+ <h2><span>{e(title)}</span></h2>
  <p>最後まで読んでいただき、<br>ありがとうございました。</p>
  <div class="end-actions">{next_link}
   <button id="restart" type="button">もう一度読む</button>
@@ -107,16 +118,33 @@ def work_page(i, w):
 
 
 # --- トップページ -----------------------------------------------------
+PENCIL = """<svg class="doodle-pencil" viewBox="0 0 150 50" aria-hidden="true" fill="none" stroke="#2b2823" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><g transform="rotate(-12 75 25)"><rect x="8" y="17" width="96" height="17" fill="#f4d86e"/><path d="M104 17 L132 25.5 L104 34 Z" fill="#fffdf6"/><path d="M123 22.7 L132 25.5 L123 28.3 Z" fill="#2b2823"/><line x1="24" y1="17" x2="24" y2="34"/><line x1="30" y1="17" x2="30" y2="34"/></g></svg>"""
+
+
 def top_page():
     cards = []
     for w in works:
-        metas = "".join(
-            f'<p class="meta{" optional" if k else ""}">{e(m)}</p>' for k, m in enumerate(w.get("meta", [])))
-        cards.append(f'''<a class="work-card" href="works/{w["slug"]}/" aria-label="{e(w["title"])} を読む"><img src="assets/thumbnails/{w["slug"]}.jpg" alt="{e(w["title"])} のサムネイル"><div class="work-info"><h3>{e(w["title"])}</h3>{metas}<span class="read-button">読む</span></div></a>''')
+        metas = "".join(f'<p class="meta">{e(m)}</p>' for m in w.get("meta", []))
+        blurb = f'<p class="blurb">{e(w["blurb"])}</p>' if w.get("blurb") else ""
+        cards.append(f'''<a class="work-card" href="works/{w["slug"]}/" aria-label="{e(w["title"])} を読む">
+<span class="tape" aria-hidden="true"></span>
+<div class="cover"><img src="assets/thumbnails/{w["slug"]}.jpg" alt="{e(w["title"])} のサムネイル"></div>
+<div class="work-info"><h3>{e(w["title"])}</h3><p class="chips"><span>全{w["pages"]}ページ</span></p>{metas}{blurb}<span class="read-button">読む →</span></div>
+</a>''')
     long_html = ""
     if long_works:
-        links = "".join(f'<a href="{e(l["url"])}">{e(l["title"])}</a>' for l in long_works)
-        long_html = f'''<section class="long-works" aria-labelledby="long-title"><h2 id="long-title">SAKUの長期作品</h2><div class="long-links">{links}</div></section>'''
+        notes = "".join(
+            f'<a class="note" href="{e(l["url"])}"><strong>{e(l["title"])}</strong>'
+            + (f'<small>{e(l["description"])}</small>' if l.get("description") else "")
+            + '<em>読みにいく →</em></a>' for l in long_works)
+        long_html = f'''<section class="long-works" aria-labelledby="long-title"><h2 id="long-title"><span>SAKUの長期作品</span></h2><div class="long-links">{notes}</div></section>'''
+    profile_html = ""
+    pr = site.get("profile")
+    if pr and (pr.get("text") or pr.get("links")):
+        paras = "".join(f"<p>{e(t)}</p>" for t in pr.get("text", "").split("\n") if t.strip())
+        links = "".join(f'<a href="{e(l["url"])}">{e(l["label"])}</a>' for l in pr.get("links", []))
+        links = f'<div class="profile-links">{links}</div>' if links else ""
+        profile_html = f'''<section class="profile" aria-labelledby="profile-title"><h2 id="profile-title"><span>{e(pr.get("title", "SAKUについて"))}</span></h2>{paras}{links}</section>'''
     return f'''<!doctype html>
 <html lang="ja">
 <head>
@@ -124,16 +152,18 @@ def top_page():
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(site["name"])}</title>
 {og(site["name"], site["description"], BASE, f"{BASE}assets/ogp/default.jpg", "website", site["name"])}
+{head_common("")}
 <link rel="stylesheet" href="css/style.css?v={V_STYLE_CSS}">
 </head>
 <body>
-<header class="site-header"><div class="wrap"><h1>{e(site["name"])}</h1><p>{e(site["header_text"])}</p></div></header>
+<header class="site-header"><div class="wrap"><h1><span>{e(site["name"])}</span></h1><p>{e(site["header_text"])}</p>{PENCIL}</div></header>
 <main class="wrap">
-<section aria-labelledby="works-title"><h2 id="works-title">作品</h2>
+<section aria-labelledby="works-title"><h2 id="works-title"><span>作品</span></h2>
 <div class="works-grid">
 {chr(10).join(cards)}
 </div></section>
 {long_html}
+{profile_html}
 </main>
 <footer><div class="wrap">{e(site["copyright"])}</div></footer>
 </body>

@@ -1,19 +1,105 @@
+/* SAKU作品集 トップページ：スケッチブック風 */
 *{box-sizing:border-box}
-:root{--paper:#f7f3e8;--paper2:#fffdf8;--ink:#292722;--line:#d8d0bf;--accent:#665c49}
+:root{
+  --paper:#f6f0e1;--paper2:#fffdf6;--ink:#2b2823;--pencil:#6b6458;--line:#d9cfb8;
+  --hl:#f4d86e;--tape:rgba(233,214,150,.78);
+  --hand:"Yomogi","Klee One","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;
+  --body:"Klee One","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .40 0 0 0 0 .33 0 0 0 0 .22 0 0 0 .42 -.14'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --squiggle:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='10' viewBox='0 0 44 10'%3E%3Cpath d='M1 6 Q6 1 11 6 T22 6 T33 6 T43 6' fill='none' stroke='%232b2823' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+}
 html{background:var(--paper)}
-body{margin:0;color:var(--ink);background:linear-gradient(180deg,#fffdf8 0,var(--paper) 100%);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif}
-a{color:inherit}.wrap{width:min(1080px,calc(100% - 40px));margin:auto}
-.site-header{padding:56px 0 32px;border-bottom:1px solid var(--line)}
-.site-header h1{margin:0 0 12px;font-size:clamp(30px,5vw,46px);letter-spacing:.06em}
-.site-header p{margin:0;line-height:1.8;color:#5c574d}
-main{padding:36px 0 60px}h2{font-size:22px;margin:0 0 22px}
-.works-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
-.work-card{display:block;text-decoration:none;background:var(--paper2);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(70,60,40,.07);transition:.18s}
-.work-card:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(70,60,40,.12)}
-.work-card img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;background:white}
-.work-info{padding:18px}.work-info h3{margin:0 0 12px;font-size:20px}.meta{margin:4px 0;color:#6b6559;font-size:14px}
-.read-button{display:inline-flex;margin-top:16px;padding:9px 25px;border-radius:999px;background:var(--ink);color:white;font-weight:700}
-.long-works{margin-top:58px;padding-top:28px;border-top:1px solid var(--line)}
-.long-links{display:flex;gap:12px;flex-wrap:wrap}.long-links a,.long-links span{padding:9px 14px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.45);text-decoration:none}
-footer{border-top:1px solid var(--line);padding:22px 0;color:#777064;font-size:13px}
-@media(max-width:760px){.wrap{width:min(100% - 28px,620px)}.site-header{padding:34px 0 24px}.works-grid{grid-template-columns:1fr;gap:24px}.work-card{max-width:520px;margin:auto}.work-info{padding:16px 18px}.read-button{display:flex;justify-content:center;width:100%}}
+body{
+  margin:0;min-height:100vh;color:var(--ink);font-family:var(--body);line-height:1.8;
+  background-color:var(--paper);
+  background-image:var(--noise),radial-gradient(ellipse 120% 60% at 50% 0,rgba(255,255,255,.75),transparent 70%),linear-gradient(180deg,transparent 70%,rgba(190,170,130,.18));
+}
+a{color:inherit}
+.wrap{width:min(1080px,calc(100% - 48px));margin:auto}
+
+/* ノートの綴じ穴（広い画面のみ） */
+@media(min-width:1000px){
+  body::before{content:"";position:fixed;left:18px;top:0;bottom:0;width:22px;pointer-events:none;
+    background:radial-gradient(circle at 11px 18px,rgba(120,105,80,.28) 0 5px,rgba(255,255,255,.6) 5.5px 7px,transparent 7.5px) 0 0/22px 44px repeat-y}
+}
+
+/* ヘッダー */
+.site-header{position:relative;padding:64px 0 36px}
+.site-header h1{margin:0 0 14px;font-family:var(--hand);font-weight:400;font-size:clamp(38px,7vw,62px);line-height:1.2;letter-spacing:.05em}
+.site-header h1 span{display:inline-block;padding-bottom:12px;background:var(--squiggle) repeat-x left bottom/44px 10px}
+.site-header p{margin:0;max-width:30em;color:var(--pencil);font-size:15px}
+.site-header .wrap{position:relative}
+.doodle-pencil{position:absolute;right:0;top:6px;width:150px;height:auto;opacity:.9}
+@media(max-width:760px){.doodle-pencil{width:96px;top:-6px}}
+
+/* 見出し（蛍光ペン） */
+h2{margin:0 0 26px;font-family:var(--hand);font-weight:400;font-size:24px}
+h2 span{padding:0 .3em;background:linear-gradient(transparent 58%,rgba(244,216,110,.75) 58%,rgba(244,216,110,.75) 92%,transparent 92%)}
+
+main{padding:12px 0 72px}
+
+/* 作品カード：テープで貼った絵 */
+.works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:44px 36px;padding:10px 4px 0}
+.work-card{--tilt:-1.5deg;position:relative;display:flex;flex-direction:column;text-decoration:none;padding:12px 12px 18px;
+  background:var(--paper2);border:1px solid var(--line);border-radius:3px;
+  box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 2px 3px rgba(80,65,40,.12),0 10px 22px rgba(80,65,40,.12);
+  transform:rotate(var(--tilt));transition:transform .22s ease,box-shadow .22s ease}
+.work-card:nth-child(even){--tilt:1.2deg}
+.work-card:nth-child(3n){--tilt:-.5deg}
+.work-card:hover,.work-card:focus-visible{transform:rotate(0) translateY(-6px);box-shadow:0 2px 3px rgba(80,65,40,.12),0 16px 30px rgba(80,65,40,.18);outline:none}
+.work-card:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+.tape{position:absolute;top:-13px;left:50%;width:92px;height:28px;margin-left:-46px;transform:rotate(-3deg);
+  background:var(--tape);border-left:2px dotted rgba(255,255,255,.55);border-right:2px dotted rgba(255,255,255,.55);box-shadow:0 1px 2px rgba(80,65,40,.15)}
+.work-card:nth-child(even) .tape{transform:rotate(2.5deg)}
+.cover{overflow:hidden;border:1px solid #e3dac6;background:#fff}
+.cover img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover}
+.work-info{flex:1;display:flex;flex-direction:column;align-items:flex-start;padding:14px 6px 0}
+.work-info>*:nth-last-child(2){margin-bottom:16px}
+.work-info h3{margin:0 0 8px;font-family:var(--hand);font-weight:400;font-size:22px;line-height:1.4}
+.chips{margin:0 0 6px;display:flex;flex-wrap:wrap;gap:6px}
+.chips span{padding:0 10px;border:1px dashed var(--pencil);border-radius:999px;font-size:12px;color:var(--pencil);line-height:1.7}
+.meta{margin:2px 0;color:var(--pencil);font-size:14px;line-height:1.7}
+.blurb{margin:8px 0 0;font-size:14px;line-height:1.8}
+
+.work-info .chips{margin-bottom:6px}
+.work-info::after{content:none}
+.read-button{display:inline-flex;margin-top:auto;position:relative;top:0;padding:6px 24px;font-family:var(--hand);font-size:16px;color:var(--ink);
+  background:#fff;border:2px solid var(--ink);border-radius:255px 18px 225px 18px/18px 225px 18px 255px;
+  box-shadow:3px 3px 0 var(--ink);transition:transform .15s ease,box-shadow .15s ease}
+.work-card:hover .read-button{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+
+/* 長期作品：付せん */
+.long-works{margin-top:84px}
+.long-links{display:flex;flex-wrap:wrap;gap:26px 28px;padding:6px 4px 0}
+.note{--c:#fff1a6;--r:-1.6deg;position:relative;display:block;width:min(100%,250px);min-height:128px;padding:20px 20px 16px;
+  background:var(--c);color:var(--ink);text-decoration:none;transform:rotate(var(--r));
+  border-radius:2px 2px 26px 2px;box-shadow:0 8px 14px rgba(80,65,40,.16);transition:transform .2s ease,box-shadow .2s ease}
+.note:nth-child(even){--c:#d3ebd9;--r:1.4deg}
+.note:nth-child(3n){--c:#fbd9d3;--r:-.8deg}
+.note::before{content:"";position:absolute;top:-9px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff,#d5513f 55%,#a53a2c);box-shadow:0 3px 4px rgba(0,0,0,.25)}
+.note:hover,.note:focus-visible{transform:rotate(0) translateY(-5px);box-shadow:0 14px 20px rgba(80,65,40,.22);outline:none}
+.note strong{display:block;font-family:var(--hand);font-weight:400;font-size:21px;line-height:1.4}
+.note small{display:block;margin-top:6px;font-size:13px;line-height:1.7;color:#5c574d}
+.note em{display:block;margin-top:10px;font-style:normal;font-family:var(--hand);font-size:14px}
+
+/* プロフィール */
+.profile{margin-top:84px;padding:24px 26px;max-width:640px;background:var(--paper2);border:1px dashed var(--pencil);border-radius:6px}
+.profile h2{margin-bottom:14px}
+.profile p{margin:0 0 12px;font-size:15px}
+.profile-links{display:flex;flex-wrap:wrap;gap:10px}
+.profile-links a{padding:4px 16px;border:2px solid var(--ink);border-radius:999px;text-decoration:none;font-family:var(--hand);font-size:15px;background:#fff}
+.profile-links a:hover{background:var(--ink);color:#fff}
+
+footer{padding:26px 0 34px;color:var(--pencil);font-family:var(--hand);font-size:14px;text-align:center}
+footer .wrap{padding-top:18px;border-top:2px dotted var(--line)}
+
+@media(max-width:760px){
+  .wrap{width:min(100% - 36px,560px)}
+  .site-header{padding:40px 0 22px}
+  .works-grid{grid-template-columns:1fr;gap:40px;max-width:380px;margin:0 auto}
+  .work-card{--tilt:-.9deg}.work-card:nth-child(even){--tilt:.8deg}
+  .read-button{display:flex;justify-content:center;width:100%}
+  .note{width:100%}
+}
+@media(prefers-reduced-motion:reduce){.work-card,.note,.read-button{transition:none}.work-card:hover,.note:hover{transform:none}}
