@@ -1,0 +1,29 @@
+{
+  "site": {
+    "name": "SAKU作品集",
+    "url": "https://saku3298.github.io/saku-works/",
+    "description": "SAKUがこれまでに描いてきた短編・読切・過去作品をまとめた作品集です。",
+    "header_text": "SAKUがこれまでに描いてきた短編・読切・過去作品をまとめています。",
+    "copyright": "© SAKU"
+  },
+  "long_works": [
+    { "title": "オーガキングダム", "url": "https://saku3298.github.io/ogre-kingdom/" },
+    { "title": "リカリカイ", "url": "https://saku3298.github.io/rikarikai/" }
+  ],
+  "works": [
+    {
+      "slug": "nandarou-nandarou",
+      "title": "なんだろう なんだろう",
+      "description": "SAKU・9歳の作品。2021年12月23日発行の短編マンガ（全{pages}ページ）。",
+      "meta": ["SAKU・9歳の作品", "2021年12月23日発行"],
+      "ogp_lines": ["SAKU・9歳の作品", "全{pages}ページ"]
+    },
+    {
+      "slug": "tsuyoku-naritai-bonjin-tachi",
+      "title": "強くなりたい凡人達",
+      "description": "SAKUの短編マンガ「強くなりたい凡人達」（全{pages}ページ）。",
+      "meta": [],
+      "ogp_lines": ["SAKUの短編マンガ", "全{pages}ページ"]
+    }
+  ]
+}
