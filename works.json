@@ -10,17 +10,21 @@
   {
    "title": "りんごちゃん",
    "url": "https://saku3298.github.io/ringo-chan/",
-   "description": "2023年〜・休載中・作者名義：れ。"
+   "year": "2023年〜",
+   "status": "休載中",
+   "author": "れ。",
+   "tone": "red"
   },
   {
    "title": "オーガキングダム",
    "url": "https://saku3298.github.io/ogre-kingdom/",
-   "description": "2025年〜"
+   "year": "2025年〜"
   },
   {
    "title": "リカリカイ",
    "url": "https://saku3298.github.io/rikarikai/",
-   "description": "2026年〜"
+   "year": "2026年〜",
+   "tone": "blue"
   }
  ],
  "works": [

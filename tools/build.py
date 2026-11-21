@@ -158,10 +158,16 @@ def top_page():
 </a>''')
     long_html = ""
     if long_works:
-        notes = "".join(
-            f'<a class="note" href="{e(l["url"])}"><strong>{e(l["title"])}</strong>'
-            + (f'<small>{e(l["description"])}</small>' if l.get("description") else "")
-            + '<em>読みにいく →</em></a>' for l in long_works)
+        def long_note(l):
+            yr = ""
+            if l.get("year") or l.get("status"):
+                st = f'<span class="note-status">{e(l["status"])}</span>' if l.get("status") else ""
+                yr = f'<small class="note-year">{e(l.get("year", ""))}{st}</small>'
+            au = f'<small class="note-author">作者名義：{e(l["author"])}</small>' if l.get("author") else ""
+            ds = f'<small>{e(l["description"])}</small>' if l.get("description") else ""
+            tone = f' tone-{e(l["tone"])}' if l.get("tone") else ""
+            return f'<a class="note{tone}" href="{e(l["url"])}"><strong>{e(l["title"])}</strong>{yr}{au}{ds}<em>読みに行く →</em></a>'
+        notes = "".join(long_note(l) for l in long_works)
         long_html = f'''<section class="long-works" aria-labelledby="long-title"><h2 id="long-title"><span>SAKUの長期作品</span></h2><div class="long-links">{notes}</div></section>'''
     profile_html = ""
     pr = site.get("profile")

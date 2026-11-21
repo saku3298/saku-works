@@ -50,7 +50,7 @@ SAKUの短編・読切・過去作品を公開するGitHub Pagesサイトです�
 
 ```json
 "works": [{ "...": "...", "blurb": "カードに出るあらすじ（1〜2行）" }],
-"long_works": [{ "title": "...", "url": "...", "description": "付せんに出るひとこと説明" }],
+"long_works": [{ "title": "...", "url": "...", "year": "2023年〜", "status": "休載中（省略可）", "author": "作者名義（省略可）", "description": "ひとこと説明（省略可）" }],
 "site": {
   "profile": {
     "title": "SAKUについて",
